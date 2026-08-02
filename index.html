@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>창연명리 (昶緣) | Chang-yeon</title>
+<meta name="description" content="창연명리 - 사주명리 상담. 카카오톡 상담, 네이버 예약, 구글 리뷰를 한 곳에서 확인하세요.">
+<style>
+:root {
+  --bg-deep: #061024;
+  --bg-mid: #0f2050;
+  --gold: #d4af37;
+  --gold-bright: #f6d570;
+  --text-main: #fbf3df;
+  --text-sub: #b7c2de;
+  --card-bg: rgba(255, 255, 255, 0.045);
+  --card-border: rgba(212, 175, 55, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  background: radial-gradient(circle at 50% 0%, var(--bg-mid), var(--bg-deep) 70%);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+.page {
+  width: 100%;
+  max-width: 480px;
+  padding: 40px 20px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ---------- 프로필 헤더 ---------- */
+
+.profile {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.logo {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 16px;
+  display: block;
+}
+
+.logo-emblem {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 16px;
+  display: block;
+}
+
+.brand-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 28px;
+  letter-spacing: 4px;
+  margin: 0 0 6px;
+  color: var(--gold-bright);
+  font-weight: 700;
+}
+
+.brand-stamp {
+  writing-mode: vertical-rl;
+  background: #8a2c2c;
+  color: #f0dcae;
+  font-size: 10px;
+  letter-spacing: 0;
+  line-height: 1.3;
+  padding: 4px 5px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.brand-sub {
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--text-sub);
+  margin: 0 0 14px;
+}
+
+.tagline {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-sub);
+  margin: 0;
+}
+
+/* ---------- 섹션 공통 ---------- */
+
+.section {
+  width: 100%;
+  margin-top: 34px;
+}
+
+.section-title {
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-align: center;
+  margin: 0 0 14px;
+  text-transform: uppercase;
+}
+
+.section-title::before,
+.section-title::after {
+  content: "◆";
+  font-size: 8px;
+  color: var(--gold);
+  opacity: 0.6;
+  margin: 0 10px;
+  vertical-align: middle;
+}
+
+/* ---------- 링크 버튼 ---------- */
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.link-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 18px;
+  border-radius: 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.link-btn:active {
+  transform: scale(0.98);
+}
+
+.link-btn:hover {
+  border-color: var(--gold);
+  background: rgba(205, 164, 94, 0.1);
+}
+
+.link-icon {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 14px;
+}
+
+.icon-kakao { background: #fee500; color: #391b1b; }
+.icon-google { background: #ffffff; color: #4285f4; }
+.icon-naver { background: #03c75a; color: #ffffff; }
+
+.link-text {
+  flex: 1;
+}
+
+.link-text small {
+  display: block;
+  font-weight: 400;
+  color: var(--text-sub);
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.link-arrow {
+  color: var(--gold);
+  opacity: 0.7;
+}
+
+/* ---------- 소식 캐러셀 ---------- */
+
+.news-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 4px 4px 12px;
+  margin: 0 -4px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.news-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.news-scroll::-webkit-scrollbar-thumb {
+  background: var(--card-border);
+  border-radius: 4px;
+}
+
+.news-card {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+  width: 78%;
+  max-width: 300px;
+  background: linear-gradient(155deg, rgba(15,32,80,0.55), rgba(212,175,55,0.1));
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.news-card .news-tag {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--bg-deep);
+  background: var(--gold-bright);
+  padding: 3px 8px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.news-card h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--text-main);
+}
+
+.news-card p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-sub);
+}
+
+/* ---------- 푸터 ---------- */
+
+.footer {
+  margin-top: 44px;
+  text-align: center;
+  color: var(--text-sub);
+  font-size: 12px;
+  opacity: 0.7;
+  line-height: 1.8;
+}
+
+.footer .divider {
+  width: 40px;
+  height: 1px;
+  background: var(--card-border);
+  margin: 0 auto 14px;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ================= 프로필 헤더 ================= -->
+  <header class="profile">
+    <!--
+      아래는 원본 로고를 본떠 직접 그린 SVG 엠블럼입니다.
+      나중에 실제 로고 파일(투명 배경 PNG 권장)을 보내주시면 이 svg 블록을 <img src="assets/logo.png" class="logo"> 로 교체해드릴 수 있습니다.
+    -->
+    <svg class="logo-emblem" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+      <path d="M80 6 L83 16 L80 26 L77 16 Z" fill="var(--gold-bright)"/>
+      <path d="M70 14 L80 18 L90 14 L80 10 Z" fill="var(--gold-bright)" opacity="0.7"/>
+      <circle cx="80" cy="84" r="58" fill="none" stroke="var(--gold)" stroke-width="1.6"/>
+      <path d="M16 72 q7 -11 17 -6 q4 -9 15 -4" fill="none" stroke="var(--gold)" stroke-width="1.3" opacity="0.75"/>
+      <path d="M144 72 q-7 -11 -17 -6 q-4 -9 -15 -4" fill="none" stroke="var(--gold)" stroke-width="1.3" opacity="0.75"/>
+      <text x="80" y="98" text-anchor="middle" font-size="46" font-family="'Noto Serif KR','Malgun Gothic',serif" fill="var(--gold-bright)" font-weight="500">命</text>
+      <path d="M38 120 q10 8 20 0 t20 0 t20 0" fill="none" stroke="var(--gold)" stroke-width="1.3" opacity="0.8"/>
+      <line x1="80" y1="120" x2="80" y2="134" stroke="var(--gold)" stroke-width="1.2" opacity="0.8"/>
+      <circle cx="80" cy="137" r="1.6" fill="var(--gold)"/>
+    </svg>
+
+    <h1 class="brand-name">창연명리<span class="brand-stamp">昶緣</span></h1>
+    <p class="brand-sub">( 昶緣 ) Chang-yeon</p>
+    <!-- 아래 소개 문구는 원하시는 문구로 자유롭게 바꾸세요 -->
+    <p class="tagline">당신의 사주에 담긴 이야기를<br>깊이 있게 풀어드립니다</p>
+  </header>
+
+  <!-- ================= 바로가기 링크 ================= -->
+  <section class="section">
+    <p class="section-title">바로가기</p>
+    <div class="links">
+
+      <a class="link-btn" href="https://pf.kakao.com/_THPfX" target="_blank" rel="noopener">
+        <span class="link-icon icon-kakao">K</span>
+        <span class="link-text">카카오톡 상담 채널<small>1:1 상담 신청 · 문의</small></span>
+        <span class="link-arrow">›</span>
+      </a>
+
+      <a class="link-btn" href="https://naver.me/F05uvMna" target="_blank" rel="noopener">
+        <span class="link-icon icon-naver">N</span>
+        <span class="link-text">네이버 스마트플레이스<small>위치 · 예약 · 리뷰</small></span>
+        <span class="link-arrow">›</span>
+      </a>
+
+      <a class="link-btn" href="https://share.google/Y1hGSCFol2abdygbs" target="_blank" rel="noopener">
+        <span class="link-icon icon-google">G</span>
+        <span class="link-text">구글에서 보기<small>정보 · 리뷰</small></span>
+        <span class="link-arrow">›</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ================= 소식 ==================
+    아래 .news-card 블록 하나가 소식 카드 1개입니다.
+    - 새 소식을 올리려면: .news-card 블록 전체를 복사해서 붙여넣고 내용만 바꾸세요.
+    - 소식을 내리려면: 해당 .news-card 블록을 통째로 지우세요.
+    - news-tag 안 글자(예: NEW, 이벤트, 공지)는 원하는 단어로 바꿔도 됩니다.
+  ===================================================== -->
+  <section class="section">
+    <p class="section-title">소식</p>
+    <div class="news-scroll">
+
+      <div class="news-card">
+        <span class="news-tag">공지</span>
+        <h3>여기에 소식 제목을 입력하세요</h3>
+        <p>여기에 소식 내용을 입력하세요. 예: 상담 안내, 이벤트, 휴무 공지 등 원하시는 내용을 자유롭게 작성하시면 됩니다.</p>
+      </div>
+
+      <div class="news-card">
+        <span class="news-tag">NEW</span>
+        <h3>두 번째 소식 예시</h3>
+        <p>카드를 옆으로 밀어서(스와이프) 여러 소식을 넘겨볼 수 있습니다. 필요한 만큼 카드를 추가하세요.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= 푸터 ================= -->
+  <footer class="footer">
+    <div class="divider"></div>
+    창연명리 (昶緣) Chang-yeon
+  </footer>
+
+</div>
+</body>
+</html>
