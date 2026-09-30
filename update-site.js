@@ -105,6 +105,18 @@ for (const sourceName of sourceFiles) {
 
 if (pending.length === 0) {
   console.log('새로 추가할 사진이 없습니다. (이미 다 올라가 있음)');
+  // 예전에 올리다 실패해서 컴퓨터에만 남아 있는 변경이 있으면 다시 올려 봅니다.
+  try {
+    const ahead = execSync('git rev-list --count @{u}..HEAD', { cwd: dir, encoding: 'utf8' }).trim();
+    if (ahead !== '0') {
+      console.log(`아직 GitHub에 안 올라간 변경이 ${ahead}건 있어 다시 올립니다...`);
+      execSync('git push', { cwd: dir, stdio: 'inherit' });
+      console.log('\n완료! 1~2분 후 changyeon4277.github.io 에서 확인하세요.');
+    }
+  } catch (e) {
+    console.error('\n업로드 중 문제가 발생했습니다. 화면에 나온 내용을 캡처해서 보내주세요.');
+    console.error(e.message);
+  }
   process.exit(0);
 }
 
@@ -160,7 +172,11 @@ fs.writeFileSync(htmlPath, html, 'utf8');
 console.log(`${newFiles.length}개 사진을 소식에 추가합니다: ${newFiles.join(', ')}`);
 
 try {
-  execSync('git add -A', { cwd: dir, stdio: 'inherit' });
+  // index.html 과 이번에 추가한 사진만 올립니다.
+  // (git add -A 로 전부 올리면 폴더 안의 동영상·바로가기까지 올라가
+  //  100MB 제한에 걸려 업로드가 계속 실패합니다.)
+  const filesToAdd = ['index.html', ...newFiles].map((f) => `"${f}"`).join(' ');
+  execSync(`git add -- ${filesToAdd}`, { cwd: dir, stdio: 'inherit' });
   execSync(`git commit -m "새 소식 사진 추가: ${newFiles.join(', ')}"`, {
     cwd: dir,
     stdio: 'inherit',
