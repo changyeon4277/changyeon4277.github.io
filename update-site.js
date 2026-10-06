@@ -28,7 +28,13 @@ console.log(`사진 폴더를 확인합니다: ${PHOTO_SOURCE_DIR}`);
 const sourceFiles = fs
   .readdirSync(PHOTO_SOURCE_DIR)
   .filter((f) => imageExts.includes(path.extname(f).toLowerCase()))
-  .filter((f) => fs.statSync(path.join(PHOTO_SOURCE_DIR, f)).isFile());
+  .filter((f) => fs.statSync(path.join(PHOTO_SOURCE_DIR, f)).isFile())
+  // 가장 최근 사진이 소식 맨 앞에 오도록, 수정 시각이 새로운 순서로 정렬합니다.
+  .sort((a, b) => {
+    const timeA = fs.statSync(path.join(PHOTO_SOURCE_DIR, a)).mtimeMs;
+    const timeB = fs.statSync(path.join(PHOTO_SOURCE_DIR, b)).mtimeMs;
+    return timeB - timeA || a.localeCompare(b);
+  });
 
 if (sourceFiles.length === 0) {
   console.log('사진 폴더가 비어 있습니다. 사진을 넣고 다시 실행해 주세요.');
@@ -158,15 +164,10 @@ if (scrollOpenIdx === -1) {
   console.error('index.html에서 소식 영역(news-scroll)을 찾지 못했습니다.');
   process.exit(1);
 }
-const afterOpen = html.slice(scrollOpenIdx);
-const closeMatch = afterOpen.match(/\r?\n\s*<\/div>\r?\n\s*<\/section>/);
-if (!closeMatch) {
-  console.error('index.html에서 소식 영역의 닫는 부분을 찾지 못했습니다.');
-  process.exit(1);
-}
-const closeIdx = scrollOpenIdx + closeMatch.index;
+// 새 카드는 소식 목록의 맨 앞(여는 태그 바로 뒤)에 넣습니다. -> 최신 사진이 제일 먼저 보입니다.
+const insertIdx = scrollOpenIdx + '<div class="news-scroll">'.length;
 
-html = html.slice(0, closeIdx) + cardsHtml + html.slice(closeIdx);
+html = html.slice(0, insertIdx) + cardsHtml + html.slice(insertIdx);
 fs.writeFileSync(htmlPath, html, 'utf8');
 
 console.log(`${newFiles.length}개 사진을 소식에 추가합니다: ${newFiles.join(', ')}`);
