@@ -11,6 +11,19 @@ const PHOTO_SOURCE_DIR = 'C:\\Users\\wuenw\\Desktop\\사진';
 // 사이트 폴더 (index.html 이 있는 이 파일과 같은 폴더)
 const dir = __dirname;
 const htmlPath = path.join(dir, 'index.html');
+
+// 먼저 GitHub의 최신 내용을 받아옵니다.
+// (다른 곳에서 사이트가 바뀌었는데 이 컴퓨터가 옛날 상태면 올릴 때 거절되기 때문입니다.)
+// 반드시 index.html 을 읽기 전에 해야, 최신 index.html 에 새 사진을 끼워 넣습니다.
+console.log('GitHub에서 최신 내용을 먼저 받아옵니다...');
+try {
+  execSync('git pull --ff-only', { cwd: dir, stdio: 'inherit' });
+} catch (e) {
+  console.error('\n최신 내용을 받아오지 못해서 사진은 올리지 않고 여기서 멈춥니다.');
+  console.error('인터넷 연결을 확인하고, 계속 안 되면 화면에 나온 내용을 캡처해서 보내주세요.');
+  process.exit(1);
+}
+
 let html = fs.readFileSync(htmlPath, 'utf8');
 
 const imageExts = ['.jpg', '.jpeg', '.png'];
